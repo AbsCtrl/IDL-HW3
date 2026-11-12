@@ -146,7 +146,7 @@ class ASRDataset(Dataset):
             feat = feat[:self.config['num_feats'], :]
 
             # Append to self.feats (num_feats is set by you in the config)
-            self.feats.append(feat)
+            self.feats.append(feat.astype(np.float16))
 
             # Track max length (time dimension)
             self.feat_max_len = max(self.feat_max_len, feat.shape[1])
@@ -244,7 +244,7 @@ class ASRDataset(Dataset):
                 - golden_transcript: LongTensor  (time) or None
         """
         # TODO: Load features
-        feat = torch.FloatTensor(self.feats[idx])
+        feat = torch.from_numpy(self.feats[idx].astype(np.float32))
 
         # TODO: Apply normalization
         if self.config['norm'] == 'global_mvn':
