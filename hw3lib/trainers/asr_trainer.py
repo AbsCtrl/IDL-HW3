@@ -211,7 +211,7 @@ class ASRTrainer(BaseTrainer):
             Tuple[Dict[str, float], List[Dict[str, Any]]]: Validation metrics and recognition results
         """
         # TODO: In-fill the _validate_epoch method
-        results = self.recognize(dataloader)
+        results = self.recognize(dataloader, {'num_batches': 30, 'beam_width': 1, 'temperature': 1.0, 'repeat_penalty': 1.0}, 'greedy')
         references = [r['target'] for r in results]
         hypotheses = [r['generated'] for r in results]
         metrics = self._calculate_asr_metrics(references, hypotheses)
